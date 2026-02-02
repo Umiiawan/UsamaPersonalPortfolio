@@ -109,15 +109,16 @@ const Contact = () => {
           {/* Email */}
           <a
             href={`mailto:${contactInfo.email}`}
-            className="info-item flex items-center gap-4 p-6 bg-brand-dark border border-brand-border rounded-xl hover:border-brand-red/50 transition-all"
+            className="info-item group flex items-center gap-4 p-6 bg-brand-dark border border-brand-border rounded-xl hover:border-brand-red/50 transition-all"
           >
             <div className="w-12 h-12 flex items-center justify-center bg-brand-red/10 rounded-lg">
               <Mail className="w-5 h-5 text-brand-red" />
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-brand-gray">Email</p>
               <p className="text-white">{contactInfo.email}</p>
             </div>
+            <ExternalLink className="w-4 h-4 text-brand-gray group-hover:text-brand-red transition-colors" />
           </a>
 
           {/* WhatsApp */}
@@ -125,15 +126,16 @@ const Contact = () => {
             href={contactInfo.whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="info-item flex items-center gap-4 p-6 bg-brand-dark border border-brand-border rounded-xl hover:border-brand-red/50 transition-all"
+            className="info-item group flex items-center gap-4 p-6 bg-brand-dark border border-brand-border rounded-xl hover:border-brand-red/50 transition-all"
           >
             <div className="w-12 h-12 flex items-center justify-center bg-brand-red/10 rounded-lg">
               <Phone className="w-5 h-5 text-brand-red" />
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-brand-gray">WhatsApp</p>
               <p className="text-white">{contactInfo.whatsapp}</p>
             </div>
+            <ExternalLink className="w-4 h-4 text-brand-gray group-hover:text-brand-red transition-colors" />
           </a>
 
           {/* Availability */}
