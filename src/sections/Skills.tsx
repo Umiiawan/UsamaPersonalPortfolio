@@ -7,7 +7,7 @@ import {
   Palette,
   Server,
   Database,
-  ShoppingCart,
+
   Layers,
   Globe,
   Cpu,
