@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { ElementType } from "react";
 import {
   Code2,
   Palette,
@@ -12,13 +13,13 @@ import {
   Cpu,
   GitBranch,
   Terminal,
-} from 'lucide-react';
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface Skill {
   name: string;
-  icon: React.ElementType;
+  icon: ElementType;
   level?: number;
 }
 
@@ -27,113 +28,131 @@ interface SkillCategory {
   skills: Skill[];
 }
 
-const Skills = () => {
+export default function Skills() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
 
   const skillCategories: SkillCategory[] = [
     {
-      title: 'Frontend',
+      title: "Frontend",
       skills: [
-        { name: 'HTML5', icon: Code2, level: 90 },
-        { name: 'CSS3', icon: Palette, level: 85 },
-        { name: 'JavaScript', icon: Terminal, level: 85 },
-        { name: 'React.js', icon: Layers, level: 80 },
-        { name: 'Responsive Design', icon: Globe, level: 85 },
+        { name: "HTML5", icon: Code2, level: 90 },
+        { name: "CSS3", icon: Palette, level: 85 },
+        { name: "JavaScript", icon: Terminal, level: 85 },
+        { name: "React.js", icon: Layers, level: 80 },
+        { name: "Responsive Design", icon: Globe, level: 85 },
       ],
     },
     {
-      title: 'Backend',
+      title: "Backend",
       skills: [
-        { name: 'Node.js', icon: Server, level: 80 },
-        { name: 'Express.js', icon: Cpu, level: 75 },
-        { name: 'RESTful APIs', icon: Globe, level: 85 },
+        { name: "Node.js", icon: Server, level: 80 },
+        { name: "Express.js", icon: Cpu, level: 75 },
+        { name: "RESTful APIs", icon: Globe, level: 85 },
       ],
     },
     {
-      title: 'Database',
-      skills: [
-        { name: 'MongoDB', icon: Database, level: 75 },
-      ],
+      title: "Database",
+      skills: [{ name: "MongoDB", icon: Database, level: 75 }],
     },
+
     {
-      title: 'E-commerce',
+      title: "Tools & Others",
       skills: [
-        { name: 'Shopify', icon: ShoppingCart, level: 85 },
-        { name: 'Liquid', icon: Code2, level: 80 },
-        { name: 'Store Optimization', icon: Cpu, level: 80 },
-      ],
-    },
-    {
-      title: 'Tools & Others',
-      skills: [
-        { name: 'Git', icon: GitBranch, level: 80 },
-        { name: 'GitHub', icon: Code2, level: 80 },
-        { name: 'SEO', icon: Globe, level: 75 },
+        { name: "Git", icon: GitBranch, level: 80 },
+        { name: "GitHub", icon: Code2, level: 80 },
+        { name: "SEO", icon: Globe, level: 75 },
       ],
     },
   ];
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.fromTo(
-        headingRef.current,
-        { scale: 0.5, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'elastic.out(1, 0.5)',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduceMotion) return;
 
-      // Category cards animation
-      const categoryCards = categoriesRef.current?.querySelectorAll('.skill-category');
-      if (categoryCards) {
+    const ctx = gsap.context(() => {
+      const section = sectionRef.current;
+      const cats = categoriesRef.current;
+
+      // ensure clean initial state and GPU accelerated transforms
+      if (section) gsap.set(section, { opacity: 1 });
+
+      // Heading animation - gentle and once
+      if (headingRef.current) {
         gsap.fromTo(
-          categoryCards,
-          { y: 60, opacity: 0 },
+          headingRef.current,
+          { y: 16, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             duration: 0.8,
-            stagger: 0.15,
-            ease: 'expo.out',
+            ease: "power3.out",
+            immediateRender: false,
             scrollTrigger: {
-              trigger: categoriesRef.current,
-              start: 'top 70%',
-              toggleActions: 'play none none reverse',
+              trigger: section,
+              start: "top 75%",
+              toggleActions: "play none none none",
+              once: true,
             },
           }
         );
       }
 
-      // Skill items animation
-      const skillItems = categoriesRef.current?.querySelectorAll('.skill-item');
-      if (skillItems) {
-        gsap.fromTo(
-          skillItems,
-          { scale: 2, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 1,
-            stagger: 0.03,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: categoriesRef.current,
-              start: 'top 60%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
+      // Category cards - staggered rise
+      if (cats) {
+        const categoryCards = cats.querySelectorAll(
+          ".skill-category"
+        ) as NodeListOf<HTMLElement>;
+        if (categoryCards.length) {
+          gsap.set(categoryCards, { willChange: "transform, opacity", force3D: true });
+          gsap.fromTo(
+            categoryCards,
+            { y: 28, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              stagger: 0.12,
+              ease: "power2.out",
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: cats,
+                start: "top 80%",
+                toggleActions: "play none none none",
+                once: true,
+              },
+            }
+          );
+        }
+
+        // Skill items - subtle fade and slide
+        const skillItems = cats.querySelectorAll(
+          ".skill-item"
+        ) as NodeListOf<HTMLElement>;
+        if (skillItems.length) {
+          gsap.set(skillItems, { willChange: "transform, opacity", force3D: true });
+          gsap.fromTo(
+            skillItems,
+            { y: 10, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.5,
+              stagger: 0.01,
+              ease: "power2.out",
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: cats,
+                start: "top 78%",
+                toggleActions: "play none none none",
+                once: true,
+              },
+            }
+          );
+        }
       }
     }, sectionRef);
 
@@ -148,21 +167,21 @@ const Skills = () => {
     >
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-brand-red/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-brand-red/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div ref={headingRef} className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border bg-brand-dark/50 mb-6">
-            <span className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
-            <span className="text-sm text-brand-gray font-body">My Expertise</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6">
+            <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+            <span className="text-sm text-zinc-400">My Expertise</span>
           </div>
-          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl text-white mb-4">
-            Tech <span className="text-brand-red">Stack</span>
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white mb-4">
+            Tech <span className="text-rose-500">Stack</span>
           </h2>
-          <p className="font-body text-lg text-brand-gray max-w-2xl mx-auto">
+          <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
             Technologies and tools I use to bring ideas to life
           </p>
         </div>
@@ -175,14 +194,14 @@ const Skills = () => {
           {skillCategories.map((category, categoryIndex) => (
             <div
               key={categoryIndex}
-              className="skill-category group p-6 bg-brand-dark border border-brand-border rounded-2xl transition-all duration-300 hover:border-brand-red/50 hover:glow-red"
+              className="skill-category group p-6 bg-neutral-900/60 backdrop-blur border border-white/10 rounded-2xl transition-all duration-300 hover:border-rose-500/50"
             >
               {/* Category Header */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 flex items-center justify-center bg-brand-red/10 rounded-lg">
-                  <Layers className="w-5 h-5 text-brand-red" />
+                <div className="w-10 h-10 flex items-center justify-center bg-rose-500/10 rounded-lg">
+                  <Layers className="w-5 h-5 text-rose-500" />
                 </div>
-                <h3 className="font-display text-2xl text-white">
+                <h3 className="text-2xl font-semibold text-white">
                   {category.title}
                 </h3>
               </div>
@@ -192,16 +211,16 @@ const Skills = () => {
                 {category.skills.map((skill, skillIndex) => (
                   <div
                     key={skillIndex}
-                    className="skill-item group/skill flex items-center gap-3 p-3 rounded-lg bg-black/30 transition-all duration-300 hover:bg-brand-red/10"
+                    className="skill-item flex items-center gap-3 p-3 rounded-lg bg-black/30 transition-colors duration-300 hover:bg-rose-500/10 will-change-transform transform-gpu"
                   >
-                    <skill.icon className="w-5 h-5 text-brand-gray group-hover/skill:text-brand-red transition-colors" />
-                    <span className="flex-1 font-body text-sm text-white">
+                    <skill.icon className="w-5 h-5 text-zinc-400 group-hover:text-rose-500 transition-colors" />
+                    <span className="flex-1 text-sm text-white">
                       {skill.name}
                     </span>
-                    {skill.level && (
-                      <div className="w-16 h-1.5 bg-brand-border rounded-full overflow-hidden">
+                    {skill.level !== undefined && (
+                      <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-brand-red rounded-full transition-all duration-500 group-hover/skill:w-full"
+                          className="h-full bg-rose-500 rounded-full transition-[width] duration-500 ease-out"
                           style={{ width: `${skill.level}%` }}
                         />
                       </div>
@@ -215,17 +234,15 @@ const Skills = () => {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <p className="font-body text-brand-gray mb-4">
+          <p className="text-zinc-400 mb-4">
             Always learning and exploring new technologies
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 border border-brand-border rounded-full">
+          <div className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 rounded-full bg-white/5">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-sm font-body text-white">Currently learning TypeScript</span>
+            <span className="text-sm text-white">Currently learning TypeScript</span>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

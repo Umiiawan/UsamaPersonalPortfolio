@@ -24,7 +24,7 @@ const Experience = () => {
       company: 'NavTech',
       role: 'Full Stack Developer',
       location: 'Government Institute',
-      period: '2023 - Present',
+      period: 'March-2024 - June-2024',
       description: [
         'Developed and maintained responsive web applications using JavaScript, React, and Node.js, enhancing user engagement and functionality.',
         'Collaborated with cross-functional teams to gather requirements and deliver innovative solutions, improving overall project efficiency.',
