@@ -1,0 +1,114 @@
+/* App-specific styles */
+
+/* Ensure smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Main container styles */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section spacing */
+section {
+  position: relative;
+}
+
+/* Ensure content is above grain overlay */
+section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Custom cursor styles for interactive elements */
+a,
+button {
+  cursor: pointer;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #FF0000;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile touch improvements */
+@media (hover: none) {
+  .tilt-card:hover {
+    transform: none;
+  }
+}
+
+/* Loading state for images */
+img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+img[loading] {
+  opacity: 0;
+}
+
+/* Ensure text is readable on all backgrounds */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Card hover lift effect */
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Magnetic button effect base */
+.magnetic-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* Stagger animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Responsive typography adjustments */
+@media (max-width: 640px) {
+  .font-display {
+    letter-spacing: 0.01em;
+  }
+}
+
+/* Print styles */
+@media print {
+  .grain::after {
+    display: none;
+  }
+  
+  nav,
+  .glow-red,
+  .glow-red-strong {
+    display: none;
+  }
+}
