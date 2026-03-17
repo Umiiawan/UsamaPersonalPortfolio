@@ -66,7 +66,7 @@ const Projects = () => {
       gradient: 'from-orange-500 via-pink-500 to-rose-500',
       shadowColor: 'rgba(249,115,22,0.12)',
       links: {
-        demo: 'https://hifzlab.com',
+        demo: 'https://www.hifzlab.com/',
       },
     },
     {
