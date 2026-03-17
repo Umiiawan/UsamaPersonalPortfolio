@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ArrowRight, Sparkles, Play } from 'lucide-react';
+import { scrollToSection } from '../utils/scrollToSection';
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -188,6 +189,10 @@ const Hero = () => {
               >
                 <a
                   href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('#projects');
+                  }}
                   className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-orange-400 px-7 py-4 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(249,115,22,0.18)] transition-all duration-300 hover:-translate-y-0.5"
                 >
                   <span>Explore Projects</span>
@@ -196,6 +201,10 @@ const Hero = () => {
 
                 <a
                   href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('#contact');
+                  }}
                   className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/80 bg-white/65 px-7 py-4 text-sm font-medium text-slate-700 backdrop-blur-md shadow-[8px_8px_18px_rgba(180,190,220,0.12),-8px_-8px_18px_rgba(255,255,255,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:text-violet-700"
                 >
                   <Play className="h-4 w-4" />
@@ -280,6 +289,10 @@ const Hero = () => {
           <div className="relative z-20 mt-10 flex justify-center lg:justify-start">
             <a
               href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('#about');
+              }}
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-violet-700"
             >
               <span>Scroll to explore</span>
