@@ -14,6 +14,9 @@ import {
   Globe,
   Briefcase,
   ChevronRight,
+  ShoppingBag,
+  Palette,
+  Settings,
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,6 +34,7 @@ interface Project {
     demo?: string;
     github?: string;
   };
+  storePassword?: string;
 }
 
 const Projects = () => {
@@ -65,6 +69,21 @@ const Projects = () => {
         demo: 'https://hifzlab.com',
       },
     },
+    {
+      title: 'FoldTech — Shopify Store',
+      subtitle: 'E-Commerce Development',
+      description:
+        'A custom Shopify storefront built for a modern e-commerce brand. Features include a fully customized theme, optimized product pages, smooth checkout flow, and mobile-first responsive design for maximum conversions.',
+      tech: ['Shopify', 'Liquid', 'Theme Customization', 'E-Commerce', 'Responsive Design'],
+      image: '/image.png',
+      role: 'Shopify store setup, theme customization, product catalog management, checkout optimization, and responsive storefront development.',
+      gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
+      shadowColor: 'rgba(20,184,166,0.12)',
+      links: {
+        demo: 'https://usamafoldtech.myshopify.com/',
+      },
+      storePassword: 'foldtech',
+    },
   ];
 
   const techIcons: Record<string, React.ElementType> = {
@@ -75,6 +94,10 @@ const Projects = () => {
     Stripe: CreditCard,
     'Modern UI': Sparkles,
     'Responsive Design': Globe,
+    Shopify: ShoppingBag,
+    Liquid: Code2,
+    'Theme Customization': Palette,
+    'E-Commerce': ShoppingBag,
   };
 
   useEffect(() => {
@@ -277,6 +300,26 @@ const Projects = () => {
                       </div>
                     </div>
 
+                    {/* store password notice */}
+                    {project.storePassword && (
+                      <div className="c-anim mb-5 flex items-center gap-3 rounded-xl border border-amber-200/60 bg-amber-50/60 px-4 py-3">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100">
+                          <Settings className="h-4 w-4 text-amber-600" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold text-amber-800">
+                            Password Protected Store
+                          </p>
+                          <p className="mt-0.5 text-xs text-amber-700">
+                            Use password:{' '}
+                            <code className="rounded bg-amber-100 px-1.5 py-0.5 font-mono font-bold text-amber-900">
+                              {project.storePassword}
+                            </code>
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     {/* actions */}
                     <div className="c-anim flex flex-wrap gap-3">
                       {project.links?.demo && (
@@ -287,7 +330,7 @@ const Projects = () => {
                           className={`group/btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${project.gradient} px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 ease-out hover:shadow-lg`}
                         >
                           <ExternalLink className="h-4 w-4" />
-                          Live Demo
+                          {project.storePassword ? 'Visit Store' : 'Live Demo'}
                           <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
                         </a>
                       )}
