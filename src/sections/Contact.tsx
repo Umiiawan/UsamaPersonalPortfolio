@@ -9,8 +9,7 @@ import {
   MessageSquare,
   ExternalLink,
   MapPin,
-  Sparkles,
-  ArrowRight,
+ 
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
